@@ -208,7 +208,7 @@ SELECT
     MAX(e.salary),
     AVG(e.salary)
 FROM
-    employees   e
+    employees e
 GROUP BY
     to_char(TO_DATE(e.hire_date, 'dd/mm/yy'),
             'yyyy')
@@ -216,3 +216,140 @@ ORDER BY
     to_char(TO_DATE(e.hire_date, 'dd/mm/yy'),
             'yyyy') DESC;
 -- C06E17 EJERCICIO 17
+SELECT
+    d.department_name,
+    AVG(e.salary),
+    MIN(e.salary),
+    MAX(e.salary)
+FROM
+    departments d,
+    employees   e
+GROUP BY
+    d.department_name;
+
+-- C06E18 EJERCICIO 18
+SELECT
+    d.department_name,
+    COUNT(*)
+FROM
+    departments d,
+    employees   e
+WHERE
+        e.department_id = d.department_id
+    AND e.commission_pct IS NOT NULL
+GROUP BY
+    d.department_name
+HAVING
+    COUNT(*) > 5;
+
+-- C06E18 EJERCICIO 18 a
+SELECT
+    d.department_name,
+    COUNT(*)
+FROM
+    departments d,
+    employees   e
+WHERE
+        e.department_id = d.department_id
+    AND e.commission_pct IS NOT NULL
+    AND e.salary > 10000
+GROUP BY
+    d.department_name
+HAVING
+    COUNT(*) > 5;
+    
+-- C06E18 EJERCICIO 18 b
+SELECT
+    d.department_name,
+    COUNT(*)
+FROM
+    departments d,
+    employees   e
+WHERE
+        e.department_id = d.department_id
+    AND e.commission_pct IS NOT NULL
+    AND e.commission_pct > 0.25
+GROUP BY
+    d.department_name
+HAVING
+    COUNT(*) > 5;
+
+-- C06E19 EJERCICIO 19
+SELECT
+    d.department_id "Código del Departamento",
+    j.job_title     "Puesto de trabajo",
+    COUNT(*)
+FROM
+    departments d,
+    employees   e,
+    jobs        j
+WHERE
+        e.department_id = d.department_id
+    AND e.job_id = j.job_id
+    AND d.department_id IN ( 50, 80 )
+GROUP BY
+    d.department_id,
+    j.job_title
+ORDER BY
+    d.department_id,
+    j.job_title;
+
+-- C06E20 EJERCICIO 20
+SELECT
+    d.department_id "Código del Departamento",
+    j.job_title     "Puesto de trabajo",
+    COUNT(*)
+FROM
+    departments d,
+    employees   e,
+    jobs        j
+WHERE
+        e.department_id = d.department_id
+    AND e.job_id = j.job_id
+GROUP BY
+    d.department_id,
+    j.job_title
+HAVING
+    COUNT(*) = 1;
+
+-- C06E21 EJERCICIO 21
+SELECT
+    l.city,
+    COUNT(*)
+FROM
+    employees   e,
+    departments d,
+    locations   l
+WHERE
+        e.department_id = d.department_id
+    AND d.location_id = l.location_id
+    AND e.salary >= 5000
+GROUP BY
+    l.city;
+
+-- C06E22 EJERCICIO 22
+SELECT
+    d.department_id "Código del Departamento",
+    COUNT(*)
+FROM
+    departments d,
+    employees   e
+WHERE
+    e.department_id = d.department_id
+GROUP BY
+    d.department_id
+HAVING
+    COUNT(*) > 10;
+
+-- C06E023 EJERCICIO 23
+SELECT
+    to_char(TO_DATE(e.hire_date, 'dd/mm/yy'),
+            'yyyy'),
+    COUNT(*)
+FROM
+    employees e
+GROUP BY
+    to_char(TO_DATE(e.hire_date, 'dd/mm/yy'),
+            'yyyy')
+HAVING
+    COUNT(*) > 10;
