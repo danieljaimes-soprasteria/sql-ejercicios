@@ -123,5 +123,3 @@ ALTER TABLE job_history_v2
 ALTER TABLE job_history_v2 DROP CONSTRAINT fk_jh_v2_job_id;
 
 ALTER TABLE job_history_v2 DROP CONSTRAINT fk_department_id;
-
--- 
