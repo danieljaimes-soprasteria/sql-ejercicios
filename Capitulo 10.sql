@@ -37,12 +37,40 @@ INSERT INTO departments d VALUES (
 );
 
 -- C10E06 EJERCICIO 6
-update departments set manager_id = (select * fro)
-SELECT
-    e.employee_id,
-    e.salary
-FROM
-    employees   e
-    LEFT JOIN departments d ON ( e.employee_id = d.manager_id )
-ORDER BY
-    e.salary desc;
+UPDATE departments
+SET
+    manager_id = (
+        SELECT
+            *
+        FROM
+            (
+                SELECT
+                    e.employee_id
+                FROM
+                    employees   e
+                    LEFT JOIN departments d ON ( e.employee_id = d.manager_id )
+                ORDER BY
+                    e.salary DESC
+            )
+        WHERE
+            ROWNUM = 1
+    )
+WHERE
+    department_id = 280; 
+
+-- C10E07 EJERCICIO 7
+UPDATE employees
+SET
+    salary = (
+        SELECT
+            AVG(e.salary)
+        FROM
+            employees e
+    )
+WHERE
+    salary = (
+        SELECT
+            MIN(e.salary)
+        FROM
+            employees e
+    );
